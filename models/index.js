@@ -1,16 +1,17 @@
-const category = require("./category");
-const product = require("./product");
-const tag = require("./tag");
-const productTag = require("./productTag");
+const category = require("./Category");
+const product = require("./Product");
+const tag = require("./Tag");
+const productTag = require("./ProductTag");
 
 product.belongsTo(category, {
     foreignKey: "category_id",
+    onDelete: "CASCADE"
 });
 
 category.hasMany(product, {
     foreignKey: "category_id",
-    onDelete: "CASCADE"
-})
+    
+});
 
 product.belongsToMany(tag, {
     through: productTag,

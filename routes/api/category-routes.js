@@ -1,24 +1,19 @@
 const router = require('express').Router();
-const { castArray, truncate } = require('lodash');
-const Category = require('../../models/category');
-const Product = require('../../models/product');
+const Category = require('../../models/Category');
+const Product = require('../../models/Product');
 
 
 // The `/api/categories` endpoint
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
   // find all categories
   // be sure to include its associated Products
   try{
-    const categoryData = await Category.findAll({
-      attribute: ["id", "category_name"],
-      include: [
-        {
-          model: Product,
-          attributes: ["id", "product_name", "price", "stock", "category_id"],
-        }
-      ]
+    const categoryData =  Category.findAll({
+      // attribute: ["id", "category_name"],
+      include: [Product]
     })
+    console.log(categoryData)
     res.status(200).json(categoryData)
   } catch (err) {
     res.status(500).json(err)
@@ -88,7 +83,7 @@ router.delete('/:id', async (req, res) => {
   try{
     const deleteCategory = await Category.destroy(req.body, {
       where: {
-        id: req.body.id
+        id: req.params.id
       },
       truncate: true
     })
@@ -101,6 +96,15 @@ router.delete('/:id', async (req, res) => {
     console.log(err);
     res.status(500).json(err)
   }
+  // router.delete('/:id', (req, res) => {
+  //   Category.destroy({
+  //     where: {
+  //       id: req.params.id,
+  //     },
+  //   })
+  //     .then((category) => res.status(200).json(category))
+  //     .catch((err) => res.status(400).json(err));
+  // });
 });
 
 module.exports = router;

@@ -15,4 +15,6 @@ Users must have Node, Express, Sequelize, and Mysql in order to run this applica
 ## Usage
 Before starting the code, you must make sure that all dependencies are installed. Then by going into your termal and using the command "node server.js", you will be able to run your local server. Then in Insomnia you can make a series of Get,Post,Put, and Delete requests to the database.
 
+Watch the inlcuded video to see a walkthrough of the application running: https://youtu.be/fvHoGjKgl0Q
+
 ![alt text](./assets/images/insomnia.png)

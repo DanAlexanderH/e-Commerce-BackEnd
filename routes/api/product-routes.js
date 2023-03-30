@@ -1,9 +1,9 @@
 const router = require('express').Router();
-// const { Product, Category, Tag, ProductTag } = require('../../models');
-const Category = require('../../models/category');
-const Product = require('../../models/product');
-const Tag = require("../../models/tag");
-const ProductTag = require("../../models/productTag");
+const { Product, Category, Tag, ProductTag } = require('../../models');
+// const Category = require('../../models/category');
+// const Product = require('../../models/product');
+// const Tag = require("../../models/tag");
+// const ProductTag = require("../../models/productTag");
 
 // The `/api/products` endpoint
 
@@ -15,15 +15,14 @@ try{
   const productData = await Product.findAll({
     attributes: ["id", "product_name", "price", "stock", "category_id"],
     include: [
-      // {
-      //   model: Category,
-      //   attributes: ["id", "category_name"]
-      // },
-      // {
-      //   model: Tag,
-      //   through: ProductTag,
-      //   as: "tags",
-      // },
+      {
+        model: Category,
+        attributes: ["id", "category_name"]
+      },
+      {
+        model: Tag,
+        attributes: ["id", "tag_name"],
+      },
     ]
   })
   res.status(200).json(productData)
@@ -41,14 +40,14 @@ router.get('/:id', async (req, res) => {
     const productId = await Product.findByPk(req.params.id, {
       attributes: ["id", "product_name", "price", "stock", "category_id"],
       include: [
-        // {
-        //   model: Category,
-        //   attributes: ["id", "category_name"]
-        // },
-        // {
-        //   model: Tag,
-        //   attributes: ["id", "tag_name"]
-        // },
+        {
+          model: Category,
+          attributes: ["id", "category_name"]
+        },
+        {
+          model: Tag,
+          attributes: ["id", "tag_name"]
+        },
       ]
     })
     if(!productId) {
